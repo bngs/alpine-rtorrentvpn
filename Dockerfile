@@ -1,6 +1,6 @@
-FROM alpine:3.9
+FROM alpine:3.13
 
-LABEL maintainer="jbbodart"
+LABEL maintainer="bngs"
 
 ENV UID=991
 ENV GID=991
@@ -8,7 +8,7 @@ ENV RTORRENT_LISTEN_PORT=49314
 ENV RTORRENT_DHT_PORT=49313
 ENV DNS_SERVER_IP='9.9.9.9'
 
-ARG MEDIAINFO_VER="18.12"
+ARG MEDIAINFO_VER="21.03"
 
 # Add flood configuration before build
 COPY config/flood_config.js /tmp/config.js
@@ -31,9 +31,9 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
 
 # compile xmlrpc-c
   && cd /tmp \
-  && curl -O https://netix.dl.sourceforge.net/project/xmlrpc-c/Xmlrpc-c%20Super%20Stable/1.39.13/xmlrpc-c-1.39.13.tgz \
-  && tar zxvf xmlrpc-c-1.39.13.tgz \
-  && cd xmlrpc-c-1.39.13 \
+  && curl -O https://netix.dl.sourceforge.net/project/xmlrpc-c/Xmlrpc-c%20Super%20Stable/1.51.07/xmlrpc-c-1.51.07.tgz \
+  && tar xmlrpc-c-1.51.07.tgz \
+  && cd xmlrpc-c-1.51.07 \
   && ./configure --enable-libxml2-backend --disable-cgi-server --disable-libwww-client --disable-wininet-client --disable-abyss-server \
   && make -j ${NB_CORES} \
   && make install \
@@ -42,8 +42,9 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
 
 # compile libtorrent
   && cd /tmp \
-  && git clone https://github.com/rakshasa/libtorrent.git \
-  && cd /tmp/libtorrent \
+  && curl -O https://rtorrent.net/downloads/libtorrent-0.13.6.tar.gz \
+  && tar zxvf libtorrent-0.13.6.tar.gz \
+  && cd /tmp/libtorrent-0.13.6 \
   && ./autogen.sh \
   && ./configure \
   && make -j ${NB_CORES} \
@@ -51,8 +52,9 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
 
 # compile rtorrent
   && cd /tmp \
-  && git clone https://github.com/rakshasa/rtorrent.git \
-  && cd /tmp/rtorrent \
+  && curl -O https://rtorrent.net/downloads/rtorrent-0.9.6.tar.gz \
+  && tar zxvf rtorrent-0.9.6.tar.gz \
+  && cd /tmp/rtorrent-0.9.6 \
   && ./autogen.sh \
   && ./configure --with-xmlrpc-c \
   && make -j ${NB_CORES} \
@@ -78,11 +80,11 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
 
 # Install ruTorrent
   && cd /var/www \
-  && curl -LOk https://github.com/Novik/ruTorrent/archive/master.zip \
-  && unzip master.zip \
-  && rm -f master.zip \
-  && mv ruTorrent-master rutorrent \
-  && chmod -R 777 /var/www/rutorrent/share/ \
+  && curl -LOk https://github.com/Novik/ruTorrent/archive/refs/tags/v3.10.zip \
+  && unzip v3.10.zip \
+  && rm -f v3.10.zip \
+  && mv ruTorrent-3.10 rutorrent \
+  && chmod -R 775 /var/www/rutorrent/share/ \
   && mkdir -p /var/www/rutorrent/tmp \
 # Add some extra stuff
   && git clone https://github.com/QuickBox/club-QuickBox /var/www/rutorrent/plugins/theme/themes/club-QuickBox \
