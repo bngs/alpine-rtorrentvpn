@@ -28,9 +28,9 @@ if [[ $(lsmod | awk -v module="tun" '$1==module {print $1}' | wc -l) -eq 0 ]] ; 
     echo_log "[warn] $i kernel module not loaded. Please insmod and restart container if tun support is not built in the kernel."
 fi
 
-echo_log "[info] setting up DNS server..."
-echo "nameserver ${DNS_SERVER_IP}" > /etc/resolv.conf
-chmod -w /etc/resolv.conf
+#echo_log "[info] setting up DNS server..."
+#echo "nameserver ${DNS_SERVER_IP}" > /etc/resolv.conf
+#chmod -w /etc/resolv.conf
 
 # check VPN configuration
 VPN_CONFIG=$(find /config/ -name "*.ovpn" -print)
@@ -120,7 +120,7 @@ if [ "${UID}" != "${CUR_UID}" ]; then
   usermod -u ${UID} rtorrent
 fi
 
-chown -R rtorrent:rtorrent /data /var/www/rutorrent /home/rtorrent/ /var/tmp/nginx
+chown -R rtorrent:rtorrent /data /var/www/rutorrent /home/rtorrent/
 
 # start everything
 ##################
@@ -140,5 +140,3 @@ supervisorctl start rtorrent
 echo_log "[info] Configuring rtorrent..."
 supervisorctl start rtorrent-config
 
-echo_log "[info] Starting flood..."
-supervisorctl start flood
