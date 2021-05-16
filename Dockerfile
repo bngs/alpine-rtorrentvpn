@@ -71,7 +71,7 @@ RUN chown rtorrent:rtorrent /home/rtorrent/rtorrent.rc /var/www/rutorrent/conf/c
 # COPY config/rutorrent_autotools.dat /var/www/rutorrent/share/settings/autotools.dat
 # RUN sed -i -e "s/\$autowatch_interval =.*/\$autowatch_interval = 10;/g" /var/www/rutorrent/plugins/autotools/conf.php
 
-VOLUME /data /config
+VOLUME /data /downloads /config
 
 # WebUI
 EXPOSE 8080
