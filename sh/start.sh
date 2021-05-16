@@ -91,7 +91,7 @@ echo_log "[info] Done. iptables rules :"
 iptables -S
 
 echo_log "[info] creating data directories..."
-mkdir -p /data/session /data/complete /data/incomplete /data/watch /data/flood/db
+mkdir -p /data/session /data/complete /data/incomplete /data/watch
 
 # set up permissions
 ####################
@@ -121,6 +121,8 @@ if [ "${UID}" != "${CUR_UID}" ]; then
 fi
 
 chown -R rtorrent:rtorrent /data /var/www/rutorrent /home/rtorrent/
+
+echo_log "test"
 
 # start everything
 ##################
