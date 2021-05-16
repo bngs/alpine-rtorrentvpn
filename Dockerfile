@@ -1,4 +1,4 @@
-FROM alpine:3.13
+FROM alpine:3.12
 
 LABEL maintainer="bngs"
 
@@ -22,17 +22,10 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
   && apk add --no-cache --virtual=build-dependencies ${build_pkgs} \
   && apk add --no-cache ${runtime_pkgs} \
 
-# compile mktorrent
-  && cd /tmp \
-  && git clone https://github.com/esmil/mktorrent \
-  && cd /tmp/mktorrent \
-  && make -j ${NB_CORES} \
-  && make install \
-
 # compile xmlrpc-c
   && cd /tmp \
   && curl -O https://netix.dl.sourceforge.net/project/xmlrpc-c/Xmlrpc-c%20Super%20Stable/1.51.07/xmlrpc-c-1.51.07.tgz \
-  && tar xmlrpc-c-1.51.07.tgz \
+  && tar zxvf xmlrpc-c-1.51.07.tgz \
   && cd xmlrpc-c-1.51.07 \
   && ./configure --enable-libxml2-backend --disable-cgi-server --disable-libwww-client --disable-wininet-client --disable-abyss-server \
   && make -j ${NB_CORES} \
@@ -111,7 +104,6 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
 
 # cleanup
   && strip -s /usr/local/bin/mediainfo \
-  && strip -s /usr/local/bin/mktorrent \
   && strip -s /usr/local/bin/rtorrent \
   && strip -s /usr/local/bin/xmlrpc \
   && apk del --purge build-dependencies \
