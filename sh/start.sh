@@ -130,15 +130,15 @@ echo_log "test"
 echo_log "[info] Starting openvpn..."
 supervisorctl start openvpn
 
-echo_log "[info] Starting nginx..."
-supervisorctl start nginx
+#echo_log "[info] Starting nginx..."
+#supervisorctl start nginx
 
-echo_log "[info] Starting php-fpm..."
-supervisorctl start php-fpm
+#echo_log "[info] Starting php-fpm..."
+#supervisorctl start php-fpm
 
-echo_log "[info] Starting rtorrent..."
-supervisorctl start rtorrent
+#echo_log "[info] Starting rtorrent..."
+#supervisorctl start rtorrent
 
-echo_log "[info] Configuring rtorrent..."
-supervisorctl start rtorrent-config
+#echo_log "[info] Configuring rtorrent..."
+#supervisorctl start rtorrent-config
 
